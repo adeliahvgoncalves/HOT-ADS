@@ -34,7 +34,6 @@ public class OurLog implements Serializable{
 	}
 	
 	public static void log(String message) {
-		System.err.println("Chamou o log ");
 		OurLog.getInstance().logMessage(message);
 		System.err.println(message);
 	}

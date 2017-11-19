@@ -5,6 +5,8 @@ import javax.swing.JPanel;
 
 import hot.Device;
 import hot.HoT;
+import logs.OurLog;
+import logs.OurLogsSerializer;
 
 import java.awt.BorderLayout;
 import javax.swing.JButton;
@@ -22,6 +24,8 @@ public class HoTapp {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

@@ -14,7 +14,6 @@ public class OurLogsSerializer {
 
 	protected String filePath;
 	final String logName = "LogFile";
-	final String regex = " -(\\d{4}-\\d{2}-\\d{2}).log";
 	private Date currentDate;
 	private FileWriter out;
 	private File folder;
@@ -23,25 +22,20 @@ public class OurLogsSerializer {
 		
 		this.filePath = filePath;
 		this.folder = this.createOrReadLogFolder(this.filePath);
-		// 0. guarda a data atual
 		try {
 			this.createNewFileStream(new Date());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public OurLogsSerializer() {
 
-		this.filePath = System.getProperty("user.dir"); // TODO: get correct path
-		// 1.0- validar se tem pasta de logs
+		this.filePath = System.getProperty("user.dir"); 
 		this.folder = this.createOrReadLogFolder(this.filePath);
-		// 0. guarda a data atual
 		try {
 			this.createNewFileStream(new Date());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -49,22 +43,17 @@ public class OurLogsSerializer {
 	private void createNewFileStream(Date newDate) throws IOException {
 		
 		this.currentDate = newDate;
-		
 		if (this.out != null) {
-		
 			this.out.close();
 		}
 		
-		// 1. validar se tem algum ficheiro para esse dia
-		// 2. verificar se já existe um ficheiro para esse dia, se nçao existir cria-o
 		File logFile = this.getOrCreateFileForDate(this.currentDate, this.folder);
 		
-		// 3. abrir o file descriptor para esse ficheiro
 		this.out = this.openStream(logFile);
 	}
 	
 	public void log(String message) {
-		System.err.println("entrei no log");
+	
 		Date todaysDate = new Date();
 		try {
 			if (!this.isDateToday(this.currentDate, todaysDate)) {
@@ -72,11 +61,9 @@ public class OurLogsSerializer {
 				this.createNewFileStream(todaysDate);
 			}
 
-			System.err.println("Serialize: " +message);
 			this.out.write(message + "\n");
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -87,10 +74,8 @@ public class OurLogsSerializer {
 	}
 	
 	private File createOrReadLogFolder(String filePath){
-		//Determine if a logs directory exists or not.
 		File logsFolder = new File(filePath + '/' + "logs");
 		if(!logsFolder.exists()){
-			//Create the directory 
 			System.err.println("INFO: Creating new logs directory in " + filePath);
 			logsFolder.mkdir();
 		} 
@@ -101,7 +86,6 @@ public class OurLogsSerializer {
 	private File getOrCreateFileForDate(Date date, File logsFolder) {
 		
 		if(!logsFolder.isDirectory() ) {
-
 			throw new IllegalStateException("Folder is not valid");
 		}
 
@@ -111,7 +95,6 @@ public class OurLogsSerializer {
 		try {
 			logFile.createNewFile();
 			return logFile;
-			
 		} catch (IOException e) {				
 			return null;
 		}
@@ -119,22 +102,19 @@ public class OurLogsSerializer {
 	
 	private String generatefileFormat(Date date) {
 		
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); //Get the current date and time
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
-		//Create the name of the file from the path and current time
 		String finalLogname =  logName + '-' +  dateFormat.format(cal.getTime()) + ".log";
 		return finalLogname;
 	}
 	
 	private boolean isDateToday(Date dateFromFile, Date currentDate) {
-
 		Calendar today = Calendar.getInstance();
 		today.clear(Calendar.HOUR); 
 		today.clear(Calendar.MINUTE); 
 		today.clear(Calendar.SECOND);
 		Date todayDateReseted = today.getTime();
-		
 		Calendar dateFromFileCalendar = Calendar.getInstance();
 		dateFromFileCalendar.setTime(currentDate);
 		dateFromFileCalendar.clear(Calendar.HOUR); 
