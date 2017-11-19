@@ -17,7 +17,11 @@ public class OurLogsSerializer {
 	private Date currentDate;
 	private FileWriter out;
 	private File folder;
-
+	
+/**
+ * Constructor
+ * @param filePath
+ */
 	public OurLogsSerializer(String filePath) {
 		
 		this.filePath = filePath;
@@ -29,6 +33,9 @@ public class OurLogsSerializer {
 		}
 	}
 
+	/**
+	 * Constructor
+	 */
 	public OurLogsSerializer() {
 
 		this.filePath = System.getProperty("user.dir"); 
@@ -40,6 +47,11 @@ public class OurLogsSerializer {
 		}
 	}
 
+	/**
+	 * Create a new File Stream
+	 * @param newDate
+	 * @throws IOException
+	 */
 	private void createNewFileStream(Date newDate) throws IOException {
 		
 		this.currentDate = newDate;
@@ -52,6 +64,10 @@ public class OurLogsSerializer {
 		this.out = this.openStream(logFile);
 	}
 	
+	/**
+	 * Write message into file
+	 * @param message
+	 */
 	public void log(String message) {
 	
 		Date todaysDate = new Date();
@@ -68,11 +84,22 @@ public class OurLogsSerializer {
 		}
 	}
 	
+	/**
+	 * Open the stream
+	 * @param logFile
+	 * @return
+	 * @throws IOException
+	 */
 	private FileWriter openStream(File logFile) throws IOException {
 		
 		return new FileWriter(logFile, true);
 	}
 	
+	/**
+	 * Create or Read the log folder
+	 * @param filePath
+	 * @return
+	 */
 	private File createOrReadLogFolder(String filePath){
 		File logsFolder = new File(filePath + '/' + "logs");
 		if(!logsFolder.exists()){
@@ -83,6 +110,12 @@ public class OurLogsSerializer {
 		return logsFolder;
 	}
 	
+	/**
+	 * Create or Read the log file
+	 * @param date
+	 * @param logsFolder
+	 * @return
+	 */
 	private File getOrCreateFileForDate(Date date, File logsFolder) {
 		
 		if(!logsFolder.isDirectory() ) {
@@ -100,6 +133,11 @@ public class OurLogsSerializer {
 		}
 	}
 	
+	/**
+	 * Generate the file name format
+	 * @param date
+	 * @return
+	 */
 	private String generatefileFormat(Date date) {
 		
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
@@ -109,6 +147,12 @@ public class OurLogsSerializer {
 		return finalLogname;
 	}
 	
+	/**
+	 * Verify the day of the file
+	 * @param dateFromFile
+	 * @param currentDate
+	 * @return
+	 */
 	private boolean isDateToday(Date dateFromFile, Date currentDate) {
 		Calendar today = Calendar.getInstance();
 		today.clear(Calendar.HOUR); 

@@ -1,5 +1,11 @@
 package logs;
 
+/**
+ * Enumeration for log level
+ * 
+ * @author adeliahvgoncalves
+ *
+ */
 public enum Level {
 	DEBUG(1),
 	WARNING(2), 
